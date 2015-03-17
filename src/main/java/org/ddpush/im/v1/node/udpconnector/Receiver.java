@@ -7,8 +7,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
-
-
 import org.ddpush.im.util.DateTimeUtil;
 import org.ddpush.im.util.StringUtil;
 import org.ddpush.im.v1.node.ClientMessage;
