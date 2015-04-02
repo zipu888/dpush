@@ -63,17 +63,28 @@ public class NIOTcpConnector implements Runnable {
 		initChannel();
 		
 	}
-	
+
+    /**
+     * 初始化频道
+     * @throws Exception
+     */
 	public void initChannel() throws Exception{
 		channel = ServerSocketChannel.open();
 		channel.socket().bind(new InetSocketAddress(port));
-		channel.configureBlocking(false);
+
+        channel.configureBlocking(false);
 		System.out.println("nio tcp connector port:"+port);
-		selector = Selector.open();
+
+        selector = Selector.open();
+
 		channel.register(selector, SelectionKey.OP_ACCEPT);
 		System.out.println("NIO TCP Connector nio provider: "+selector.provider().getClass().getCanonicalName());
 	}
-	
+
+    /**
+     * 初始化线程池
+     * @throws Exception
+     */
 	public void initExecutor() throws Exception{
 		if ( executor == null ) {
             executor = new ThreadPoolExecutor(minThreads,maxThreads,30,TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>());
