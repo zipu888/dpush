@@ -38,22 +38,30 @@ public class UdpConnector {
 		if(antenna != null){
 			throw new Exception("antenna is not null, may have run before");
 		}
+
+        // A new datagram channel
 		antenna = DatagramChannel.open();
+        //绑定地址 DatagramSocket
 		antenna.socket().bind(new InetSocketAddress(port));
 		System.out.println("udp connector port:"+port);
 		//non-blocking
+
 		antenna.configureBlocking(false);
 		antenna.socket().setReceiveBufferSize(1024*1024*PropertyUtil.getPropertyInt("CLIENT_UDP_BUFFER_RECEIVE"));
 		antenna.socket().setSendBufferSize(1024*1024*PropertyUtil.getPropertyInt("CLIENT_UDP_BUFFER_SEND"));
 		System.out.println("udp connector recv buffer size:"+antenna.socket().getReceiveBufferSize());
 		System.out.println("udp connector send buffer size:"+antenna.socket().getSendBufferSize());
 		
-		
+		//把这个频道和 receiver绑定
 		this.receiver = new Receiver(antenna);
+
 		this.receiver.init();
+
+        //把这个频道和 sender绑定
 		this.sender = new Sender(antenna);
 		this.sender.init();
-		
+
+        //启动 发送者和接受者
 		this.senderThread = new Thread(sender,"AsynUdpConnector-sender");
 		this.receiverThread = new Thread(receiver,"AsynUdpConnector-receiver");
 		this.receiverThread.start();
@@ -63,11 +71,13 @@ public class UdpConnector {
 		receiver.stop();
 		sender.stop();
 		try{
+            //这里等待接受者的run方法运行完
 			receiverThread.join();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		try{
+            //这里等待发送者的run方法运行完
 			senderThread.join();
 		}catch(Exception e){
 			e.printStackTrace();

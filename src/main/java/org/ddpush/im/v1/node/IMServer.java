@@ -80,7 +80,9 @@ public class IMServer {
      */
 	public void init() throws Exception{
 		initPushListener();
-		initConsole();
+		//启动当前Server的命令监听 用于远程连接到发送命令控制 当前server
+        initConsole();
+
 		initUdpConnector();
 		initTcpConnector();
 		initWorkers();
