@@ -23,6 +23,10 @@ public class Receiver implements Runnable{
 
 	protected AtomicLong queueIn = new AtomicLong(0);
 	protected AtomicLong queueOut = new AtomicLong(0);
+
+    /**
+     * 这里定义一个队列
+     */
 	protected ConcurrentLinkedQueue<ClientMessage> mq = new ConcurrentLinkedQueue<ClientMessage>();
 	
 	public Receiver(DatagramChannel channel){

@@ -28,6 +28,9 @@ import org.ddpush.im.v1.node.pushlistener.NIOPushListener;
 import org.ddpush.im.v1.node.tcpconnector.NIOTcpConnector;
 import org.ddpush.im.v1.node.udpconnector.UdpConnector;
 
+/**
+ * IMServer类
+ */
 public class IMServer {
 	
 	public static IMServer server;
@@ -70,7 +73,11 @@ public class IMServer {
 		}
 		return server;
 	}
-	
+
+    /**
+     * 初始化
+     * @throws Exception
+     */
 	public void init() throws Exception{
 		initPushListener();
 		initConsole();
@@ -80,20 +87,29 @@ public class IMServer {
 		initCleaner();
 		
 	}
-	
+
+
 	public void initConsole() throws Exception{
 		console = new IMServerConsole();
 		cmdThread = new Thread(console,"IMServer-console");
 		cmdThread.setDaemon(true);
 		cmdThread.start();
 	}
-	
+
+    /**
+     * 初始化udp connector
+     * @throws Exception
+     */
 	public void initUdpConnector() throws Exception{
 		System.out.println("start connector...");
 		udpConnector = new UdpConnector();
 		udpConnector.start();
 	}
-	
+
+    /**
+     * 初始化tcp Connector
+     * @throws Exception
+     */
 	public void initTcpConnector() throws Exception{
 		if(!"YES".equalsIgnoreCase(PropertyUtil.getProperty("TCP_CONNECTOR_ENABLE"))){
 			return;
@@ -105,7 +121,10 @@ public class IMServer {
 			tcpConnector.wait();
 		}
 	}
-	
+
+    /**
+     * 按照worker的数量初始化 messager
+     */
 	public void initWorkers(){
 		System.out.println("start "+workerNum+" workers...");
 		for(int i = 0; i < workerNum; i++){
