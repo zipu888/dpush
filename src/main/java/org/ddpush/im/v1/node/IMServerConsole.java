@@ -28,7 +28,10 @@ import java.net.Socket;
 
 import org.ddpush.im.util.PropertyUtil;
 
-
+/**
+ * 这个类是一个监听 客户端给发送命令的socket Server
+ *
+ */
 public class IMServerConsole implements Runnable {
 	
 	public static final String CMD_SHUTDOWN = "shutdown";
@@ -54,6 +57,8 @@ public class IMServerConsole implements Runnable {
         System.out.println("console listening port:"+port);
         while(true){
         	try{
+
+                //处理客户端的命令
         		processCommand();
         	}catch(Exception e){
         		e.printStackTrace();
@@ -91,7 +96,9 @@ public class IMServerConsole implements Runnable {
             maxLen--;
         }
         String cmd = command.toString().trim();
-        
+
+        //判断是什么命令
+
         if(cmd.equals(CMD_SHUTDOWN)){
         	onShutdown(ops);
         }else if(cmd.equalsIgnoreCase(CMD_STOP)){

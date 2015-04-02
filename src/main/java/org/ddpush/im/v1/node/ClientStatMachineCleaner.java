@@ -25,7 +25,9 @@ public class ClientStatMachineCleaner implements Runnable {
 	
 	private boolean stoped = false;
 	private long lastCleanTime = 0;
-	
+
+    /*
+    * */
 	private int expiredHours = PropertyUtil.getPropertyInt("CLEANER_DEFAULT_EXPIRED_HOURS");;
 	
 	@Override
@@ -33,7 +35,8 @@ public class ClientStatMachineCleaner implements Runnable {
 		while(!stoped){
 			try{
 				synchronized(this){
-					this.wait();
+                    //令线程等待 当执行wakeUp方法的时候 唤醒线程 执行清理操作
+                    this.wait();
 					if(stoped == true){
 						return;
 					}
@@ -48,9 +51,13 @@ public class ClientStatMachineCleaner implements Runnable {
 		System.out.println("cleaner quit");
 
 	}
-	
+
+    /**
+     * 唤醒
+     */
 	public void wakeup(){
 		synchronized(this){
+            //唤醒等待的线程
 			this.notifyAll();
 		}
 	}
@@ -66,7 +73,8 @@ public class ClientStatMachineCleaner implements Runnable {
 			int removed = NodeStatus.getInstance().cleanStatus(expiredHours);
 			System.out.println("clean "+removed +" expired stat machines of expired hours of "+expiredHours);
 			lastCleanTime = System.currentTimeMillis();
-			System.gc();
+			//调用GC
+            System.gc();
 			System.out.println("gc committed");
 			System.out.println("max   mem: "+Runtime.getRuntime().maxMemory());
 			System.out.println("total mem: "+Runtime.getRuntime().totalMemory());

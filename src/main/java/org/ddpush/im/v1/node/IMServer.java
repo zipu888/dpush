@@ -139,7 +139,8 @@ public class IMServer {
 	
 	public void initCleaner() throws Exception{
 		cleaner = new ClientStatMachineCleaner();
-		clearnThread = new Thread(cleaner,"IMServer-cleaner");
+		// 启动一个GC清理 线程
+        clearnThread = new Thread(cleaner,"IMServer-cleaner");
 		clearnThread.start();
 	}
 	
@@ -148,10 +149,16 @@ public class IMServer {
 		pushThread =  new Thread(pushListener,"IMServer-push-listener");
 		pushThread.start();
 	}
-	
+
+    /**
+     * 启动Server
+     * @throws Exception
+     */
 	public void start() throws Exception{
 		System.out.println("working dir: "+System.getProperty("user.dir"));
-		init();
+
+        //执行初始化操作
+        init();
 		
 		final Thread mainT = Thread.currentThread();
 		
@@ -160,6 +167,8 @@ public class IMServer {
 				stoped = true;
 				System.out.println("shut down server... ");
 				try{
+
+                    // 等待当前主进程结束
 					mainT.join();
 					System.out.println("server is down, bye ");
 				}catch(Exception e){
@@ -191,7 +200,8 @@ public class IMServer {
 		Runtime rt = Runtime.getRuntime();
 		if((rt.totalMemory()-rt.freeMemory())/(double)rt.maxMemory() > percent){
 			System.out.println("run auto clean...");
-			cleaner.wakeup();
+			//计算时间间隔 调用 cleaner的 Wakeup方法 唤醒等待的线程 进行清理 清理完 又进入等待下次唤醒
+            cleaner.wakeup();
 		}
 	}
 	
@@ -202,9 +212,14 @@ public class IMServer {
 		}
 		
 	}
-	
+
+    /**
+     * server 退出时候的操作
+     * @throws Exception
+     */
 	protected void quit() throws Exception{
 		try{
+            //关掉
 			stopWorkers();
 			stopUdpConnector();
 			stopTcpConnector();
