@@ -232,7 +232,8 @@ public class NIOPushListener implements Runnable {
 	                 channel.socket().setSoTimeout(sockTimout);
 	                 //channel.socket().setReceiveBufferSize(1024);
 	                 //channel.socket().setSendBufferSize(1024);
-	                 PushTask task = new PushTask(this, channel);
+
+                     PushTask task = new PushTask(this, channel);
 	                 channel.register(selector,SelectionKey.OP_READ, task);
             	 }catch(Exception e){
             		 e.printStackTrace();
