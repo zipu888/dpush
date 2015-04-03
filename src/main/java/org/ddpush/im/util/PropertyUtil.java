@@ -11,6 +11,9 @@ public class PropertyUtil {
 	
 	protected static HashMap<String,Properties> propertiesSets = new HashMap<String, Properties>();
 
+    /**
+     * 私有构造方法 这样就不能显示的new 该对象了 工具类都应该这样
+     */
 	private PropertyUtil() {
 		
 	}
@@ -34,12 +37,15 @@ public class PropertyUtil {
 			}
 			properties.put(key.toUpperCase(), value);
 		}
-		
+		//放入hashmap 缓存起来
 		propertiesSets.put(setName, properties);
 		
 	}
 	
 	public static String getProperty(String key){
+
+        //在这个方法再次判断 如果空就在一次执行初始化 其他的getproperty都调用这个方法
+
 		if(propertiesSets.get(DEFAULTSET) == null){
 			init();
 		}
@@ -76,6 +82,7 @@ public class PropertyUtil {
 		if(value == null){
 			return "";
 		}
+
 		return value;
 	}
 

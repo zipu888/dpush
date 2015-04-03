@@ -5,6 +5,10 @@ import java.util.UUID;
 
 
 public class StringUtil {
+
+    private StringUtil(){
+
+    }
 	
 	public static String checkBlankString(String param) {
 		if (param == null) {
@@ -108,6 +112,19 @@ public class StringUtil {
             sb.append(convertDigit((int) (bytes[i] & 0x0f)));
         }
         return (sb.toString());
+
+    }
+
+    public static void main(String[] args){
+        System.out.println(genUUIDHexString());
+        try{
+            System.out.println(sha1("haopangzi"));
+
+            System.out.println(md5("123456"));
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }
