@@ -21,11 +21,15 @@ package org.ddpush.im.v1.node;
 
 import java.net.SocketAddress;
 
+/**
+ * 服务器端消息
+ */
 public final class ServerMessage{
 	
 	protected SocketAddress address;
 	protected byte[] data;
-	
+
+
 	public ServerMessage(SocketAddress address, byte[] data) throws Exception{
 		this.address = address;
 		this.data = data;

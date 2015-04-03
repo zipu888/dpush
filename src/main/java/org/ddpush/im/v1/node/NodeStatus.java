@@ -35,6 +35,7 @@ import org.ddpush.im.util.StringUtil;
 public class NodeStatus {
 	
 	private static  NodeStatus global;
+
 	private static ConcurrentHashMap<String, ClientStatMachine> nodeStat;
 	
 	private static final int file_min_bytes_per_object = 77;

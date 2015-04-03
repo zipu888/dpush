@@ -80,6 +80,7 @@ public abstract class TCPClientBase implements Runnable {
 	protected boolean enqueue(Message message){
 		boolean result = mq.add(message);
 		if(result == true){
+            //并发包的变量 多线程安全 +1
 			queueIn.addAndGet(1);
 		}
 		return result;
@@ -88,6 +89,7 @@ public abstract class TCPClientBase implements Runnable {
 	protected Message dequeue(){
 		Message m = mq.poll();
 		if(m != null){
+            //并发包的变量 多线程安全 -1
 			queueOut.addAndGet(1);
 		}
 		return m;

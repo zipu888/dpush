@@ -316,11 +316,20 @@ public abstract class UDPClientBase implements Runnable {
 	public int getHeartbeatInterval(){
 		return this.heartbeatInterval;
 	}
-	
+
+    /** 抽象方法子类来实现 **/
 	public abstract boolean hasNetworkConnection();
-	public abstract void trySystemSleep();
-	public abstract void onPushMessage(Message message);
-	
+
+    /** 抽象方法子类来实现 **/
+    public abstract void trySystemSleep();
+
+    /** 抽象方法子类来实现 **/
+    public abstract void onPushMessage(Message message);
+
+
+    /**
+     *
+     */
 	class Worker implements Runnable{
 		public void run(){
 			synchronized(workerT){
