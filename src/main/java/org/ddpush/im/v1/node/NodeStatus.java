@@ -47,7 +47,7 @@ public class NodeStatus {
 	public static NodeStatus getInstance(){
 		if(global == null){
 			synchronized(NodeStatus.class){
-				if(global == null){//need to check again!!
+				if(global == null){//need to check again!! 所谓的双检锁 ？？？
 					global = new NodeStatus();
 					System.out.println("try load node stat file...");
 					global.tryLoadFile();
