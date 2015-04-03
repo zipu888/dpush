@@ -41,15 +41,23 @@ public class PushTask implements Runnable {
 	private int maxContentLength;
 	private byte[] bufferArray;
 	private ByteBuffer buffer;
-	
+
+    /**
+     * 构造函数
+     * @param listener 监听器
+     * @param channel 频道
+     */
 	public PushTask(NIOPushListener listener, SocketChannel channel){
 		this.listener = listener;
 		this.channel = channel;
 		maxContentLength = PropertyUtil.getPropertyInt("PUSH_MSG_MAX_CONTENT_LEN");
-		bufferArray = new byte[Constant.PUSH_MSG_HEADER_LEN+maxContentLength];
+
+        bufferArray = new byte[Constant.PUSH_MSG_HEADER_LEN+maxContentLength];
 		buffer = ByteBuffer.wrap(bufferArray);
-		buffer.limit(Constant.PUSH_MSG_HEADER_LEN);
-		lastActive = System.currentTimeMillis();
+
+        buffer.limit(Constant.PUSH_MSG_HEADER_LEN);
+
+        lastActive = System.currentTimeMillis();
 	}
 	
 	public void setKey(SelectionKey key){
